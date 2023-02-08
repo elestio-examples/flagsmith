@@ -8,6 +8,7 @@ version: "3"
 services:
     postgres:
         image: postgres:11.12-alpine
+        restart: always
         environment:
             POSTGRES_PASSWORD: password
             POSTGRES_DB: flagsmith
@@ -16,6 +17,7 @@ services:
 
     flagsmith:
         image: flagsmith/flagsmith:${SOFTWARE_VERSION_TAG}
+        restart: always
         environment:
             # All environments variables are available here:
             # API: https://docs.flagsmith.com/deployment/locally-api#environment-variables
