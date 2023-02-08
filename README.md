@@ -15,3 +15,15 @@ You can can open Flagsmith UI here:
     URL: https://[CI_CD_DOMAIN]
     email:[ADMIN_EMAIL]
     password: [ADMIN_PASSWORD]
+
+# Admin
+
+You can can open Django administration here:
+
+    URL: https://[CI_CD_DOMAIN]/admin/
+    email:[ADMIN_EMAIL]
+    password: [ADMIN_PASSWORD]
+
+# Documentation
+
+https://docs.flagsmith.com/quickstart
