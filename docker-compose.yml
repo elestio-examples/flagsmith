@@ -26,6 +26,7 @@ services:
             DJANGO_ALLOWED_HOSTS: ${DOMAIN} # Change this in production
             DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
             DISABLE_INFLUXDB_FEATURES: "true" # set to 'false' to enable InfluxDB
+            DJANGO_SECRET_KEY: ${ADMIN_PASSWORD}
 
             ENV: prod # set to "prod" in production.
 
@@ -46,7 +47,7 @@ services:
             EMAIL_PORT: ${SMTP_PORT} # optional
             EMAIL_USE_TLS: ${SMTP_AUTH_STRATEGY} # optional
 
-            # ENABLE_ADMIN_ACCESS_USER_PASS: True # set to True to enable access to the /admin/ Django backend via your username and password
+            ENABLE_ADMIN_ACCESS_USER_PASS: "True" # set to True to enable access to the /admin/ Django backend via your username and password
             # ALLOW_REGISTRATION_WITHOUT_INVITE: True
 
         ports:
