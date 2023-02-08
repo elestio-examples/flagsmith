@@ -5,7 +5,7 @@
 echo "Waiting for software to be ready ..."
 sleep 30s;
 
-$target=$(docker-compose flagsmith 8000)
+$target=$(docker-compose port flagsmith 8000)
 
 
 curl http://$target/api/v1/users/config/init/ \
