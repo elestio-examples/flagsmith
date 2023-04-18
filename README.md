@@ -10,18 +10,18 @@ Deploy Flagsmith server with CI/CD on Elestio
 
 # Once deployed ...
 
-You can can open Flagsmith UI here:
+You can open Flagsmith UI here:
 
     URL: https://[CI_CD_DOMAIN]
-    email:[ADMIN_EMAIL]
+    email: [ADMIN_EMAIL]
     password: [ADMIN_PASSWORD]
 
 # Admin
 
-You can can open Django administration here:
+You can open Django administration here:
 
     URL: https://[CI_CD_DOMAIN]/admin/
-    email:[ADMIN_EMAIL]
+    email: [ADMIN_EMAIL]
     password: [ADMIN_PASSWORD]
 
 # Documentation
