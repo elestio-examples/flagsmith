@@ -7,10 +7,20 @@ ports:
     public: true
     path: "/"
     isAuth: false
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "64499"
+    targetPort: "53320"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
 environments:
   - key: "SOFTWARE_VERSION_TAG"
     value: "latest"
   - key: "ADMIN_PASSWORD"
+    value: "random_password"
+  - key: "DB_PASSWORD"
     value: "random_password"
   - key: "DOMAIN"
     value: "[CI_CD_DOMAIN]"
@@ -51,5 +61,9 @@ webUI:
     password: "[ADMIN_PASSWORD]"
   - url: "https://[CI_CD_DOMAIN]/admin/"
     label: "Django administration"
+    login: "[ADMIN_EMAIL]"
+    password: "[ADMIN_PASSWORD]"
+  - url: "https://[CI_CD_DOMAIN]:64499"
+    label: "pgAdmin"
     login: "[ADMIN_EMAIL]"
     password: "[ADMIN_PASSWORD]"

@@ -1,46 +1,61 @@
 version: "3"
 
-
 services:
-    postgres:
-        image: postgres:11.12-alpine
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: flagsmith
-        volumes:
-            - ./pgdata:/var/lib/postgresql/data
+  postgres:
+    image: elestio/postgres:15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: flagsmith
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - 172.17.0.1:25252:5432
 
-    flagsmith:
-        image: flagsmith/flagsmith:${SOFTWARE_VERSION_TAG}
-        restart: always
-        environment:
-            DJANGO_ALLOWED_HOSTS: ${DOMAIN}
-            DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
-            DISABLE_INFLUXDB_FEATURES: "true"
-            DJANGO_SECRET_KEY: ${ADMIN_PASSWORD}
-            ENV: prod
-            EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
-            EMAIL_HOST: ${SMTP_HOST}
-            SENDER_EMAIL: ${SMTP_FROM_EMAIL}
-            EMAIL_HOST_USER: ""
-            EMAIL_HOST_PASSWORD: ""
-            EMAIL_PORT: ${SMTP_PORT}
-            EMAIL_USE_TLS: ${SMTP_AUTH_STRATEGY}
-            ENABLE_ADMIN_ACCESS_USER_PASS: "True"
-        ports:
-            - "172.17.0.1:8765:8000"
-        depends_on:
-            - postgres
-            # - influxdb
-        links:
-            - postgres
-            # - influxdb:influxdb
+  flagsmith:
+    image: flagsmith/flagsmith:${SOFTWARE_VERSION_TAG}
+    restart: always
+    environment:
+      DJANGO_ALLOWED_HOSTS: ${DOMAIN}
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD}@postgres:5432/flagsmith
+      DISABLE_INFLUXDB_FEATURES: "true"
+      DJANGO_SECRET_KEY: ${ADMIN_PASSWORD}
+      ENV: prod
+      EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+      EMAIL_HOST: ${SMTP_HOST}
+      SENDER_EMAIL: ${SMTP_FROM_EMAIL}
+      EMAIL_HOST_USER: ""
+      EMAIL_HOST_PASSWORD: ""
+      EMAIL_PORT: ${SMTP_PORT}
+      EMAIL_USE_TLS: ${SMTP_AUTH_STRATEGY}
+      ENABLE_ADMIN_ACCESS_USER_PASS: "True"
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      FLAGSMITH_DOMAIN: ${DOMAIN}
+    ports:
+      - "172.17.0.1:8765:8000"
+    depends_on:
+      - postgres
+      # - influxdb
+    links:
+      - postgres
+      # - influxdb:influxdb
 
-    # InfluxDB requires additional setup - please see https://docs.flagsmith.com/deployment-overview/#influxdb
-    # Note that InfluxDB is optional, but enabling it will provide additional functionality to the Flagsmith platform
-    # influxdb:
-    #   image: quay.io/influxdb/influxdb:v2.0.3
-    #   container_name: flagsmith_influxdb
-    #   ports:
-    #     - "8086:8086"
+  # InfluxDB requires additional setup - please see https://docs.flagsmith.com/deployment-overview/#influxdb
+  # Note that InfluxDB is optional, but enabling it will provide additional functionality to the Flagsmith platform
+  # influxdb:
+  #   image: quay.io/influxdb/influxdb:v2.0.3
+  #   container_name: flagsmith_influxdb
+  #   ports:
+  #     - "8086:8086"
+
+  pgadmin4:
+    image: elestio/pgadmin:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${ADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${ADMIN_PASSWORD}
+      PGADMIN_LISTEN_PORT: 8080
+    ports:
+      - "172.17.0.1:53320:8080"
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json

@@ -24,6 +24,12 @@ You can open Django administration here:
     email: [ADMIN_EMAIL]
     password: [ADMIN_PASSWORD]
 
+You can open pgAdmin here:
+
+    URL: https://[CI_CD_DOMAIN]:64499
+    email: [ADMIN_EMAIL]
+    password: [ADMIN_PASSWORD]
+
 # Documentation
 
 https://docs.flagsmith.com/quickstart
